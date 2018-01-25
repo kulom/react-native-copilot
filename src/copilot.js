@@ -81,8 +81,7 @@ const copilot = ({
       const targetMeasure = await step.target.measure();
       const scrollViewHeight = this.scrollViewMeasure.height;
       const targetBottomY = targetMeasure.y + targetMeasure.height;
-      console.log("TargetBottom", targetBottomY);
-      let newTargetY = targetBottomY;
+      let newTargetY;
 
       if (
         scrollViewHeight < targetBottomY ||
@@ -91,8 +90,6 @@ const copilot = ({
         newTargetY = await this.startScroll(targetMeasure);
       }
       await this.setState({ currentStep: step });
-      this.newTargetY = newTargetY;
-      console.log("NEW TARGET", this.newTargetY);
       this.modal.animateMove({
         width: targetMeasure.width + OFFSET_WIDTH,
         height: targetMeasure.height + OFFSET_WIDTH,
@@ -171,10 +168,6 @@ const copilot = ({
             isLastStep={this.isLastStep()}
             currentStepNumber={this.getStepNumber()}
             currentStep={this.state.currentStep}
-            currentElementYPosition={this.newTargetY}
-            scrollViewHeight={
-              this.scrollViewMeasure && this.scrollViewMeasure.height
-            }
             nextButton={nextButton}
             prevButton={prevButton}
             stopButton={stopButton}

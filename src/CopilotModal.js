@@ -24,12 +24,10 @@ type Props = {
   prevButton?: React$Element,
   stopButton?: React$Element,
   finishButton?: React$Element,
-  currentElementYPosition: number,
   currentStepNumber: number,
   currentStep: ?Step,
   visible: boolean,
   image: number,
-  scrollViewHeight: number,
   fullWidthToolTips: boolean,
   isFirstStep: boolean,
   isLastStep: boolean
@@ -41,7 +39,6 @@ type State = {
   anim: Object,
   notAnimated: boolean,
   wrapperSize: number,
-  currentElementYPosition: number
 };
 
 class CopilotModal extends Component<Props, State> {
@@ -175,9 +172,6 @@ class CopilotModal extends Component<Props, State> {
   }
 
   render() {
-    console.log("STEP", this.props.currentStepNumber);
-    console.log("CURRNET", this.props.currentElementYPosition);
-
     return this.props.visible ? (
       <View
         style={styles.container}

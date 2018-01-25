@@ -95,7 +95,9 @@ const copilot = ({
         height: targetMeasure.height + OFFSET_WIDTH,
         left: targetMeasure.x - OFFSET_WIDTH / 2,
         top:
-          (newTargetY !== targetBottomY ? newTargetY : targetMeasure.y) -
+          (!Number.isNaN(parseFloat(newTargetY))
+            ? newTargetY
+            : targetMeasure.y) -
           OFFSET_WIDTH / 2
       });
     };

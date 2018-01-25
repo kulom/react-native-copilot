@@ -30,9 +30,6 @@ export default StyleSheet.create({
   bottomToolTip: {
     bottom: 0
   },
-  topToolTip: {
-    top: 0
-  },
   fullWidthToolTips: {
     height: 120,
     paddingBottom: 5

@@ -21,8 +21,7 @@ type State = {
   steps: { [string]: Step },
   currentStep: ?Step,
   visible: boolean,
-  whereToScroll: number,
-  currentElementYPosition: number
+  whereToScroll: number
 };
 
 const copilot = ({
@@ -38,8 +37,7 @@ const copilot = ({
       steps: {},
       currentStep: null,
       visible: false,
-      whereToScroll: 0,
-      currentElementYPosition: 0
+      whereToScroll: 0
     };
 
     getChildContext(): { _copilot: CopilotContext } {
@@ -81,10 +79,10 @@ const copilot = ({
 
     setCurrentStep = async (step: Step): void => {
       const targetMeasure = await step.target.measure();
-      this.setState({ currentElementYPosition: targetMeasure.y });
       const scrollViewHeight = this.scrollViewMeasure.height;
       const targetBottomY = targetMeasure.y + targetMeasure.height;
-      let newTargetY;
+      console.log("TargetBottom", targetBottomY);
+      let newTargetY = targetBottomY;
 
       if (
         scrollViewHeight < targetBottomY ||
@@ -93,15 +91,14 @@ const copilot = ({
         newTargetY = await this.startScroll(targetMeasure);
       }
       await this.setState({ currentStep: step });
-
+      this.newTargetY = newTargetY;
+      console.log("NEW TARGET", this.newTargetY);
       this.modal.animateMove({
         width: targetMeasure.width + OFFSET_WIDTH,
         height: targetMeasure.height + OFFSET_WIDTH,
         left: targetMeasure.x - OFFSET_WIDTH / 2,
         top:
-          (!Number.isNaN(parseFloat(newTargetY))
-            ? newTargetY
-            : targetMeasure.y) -
+          (newTargetY !== targetBottomY ? newTargetY : targetMeasure.y) -
           OFFSET_WIDTH / 2
       });
     };
@@ -174,7 +171,7 @@ const copilot = ({
             isLastStep={this.isLastStep()}
             currentStepNumber={this.getStepNumber()}
             currentStep={this.state.currentStep}
-            currentElementYPosition={this.state.currentElementYPosition}
+            currentElementYPosition={this.newTargetY}
             scrollViewHeight={
               this.scrollViewMeasure && this.scrollViewMeasure.height
             }

@@ -40,7 +40,8 @@ type State = {
   arrow: Object,
   anim: Object,
   notAnimated: boolean,
-  wrapperSize: number
+  wrapperSize: number,
+  currentElementYPosition: number
 };
 
 class CopilotModal extends Component<Props, State> {
@@ -173,11 +174,10 @@ class CopilotModal extends Component<Props, State> {
     });
   }
 
-  componentDidMount() {
-    //console.log('measure', this.wrapper);
-  }
-
   render() {
+    console.log("STEP", this.props.currentStepNumber);
+    console.log("CURRNET", this.props.currentElementYPosition);
+
     return this.props.visible ? (
       <View
         style={styles.container}
@@ -244,9 +244,7 @@ class CopilotModal extends Component<Props, State> {
             this.props.fullWidthToolTips
               ? styles.fullWidthToolTips
               : this.state.tooltip,
-            this.props.currentElementYPosition > this.state.scrollViewHeight / 2
-              ? styles.topToolTip
-              : this.props.fullWidthToolTips && styles.bottomToolTip
+            this.props.fullWidthToolTips && styles.bottomToolTip
           ]}
         >
           <View style={{ flex: 1, flexDirection: "row" }}>

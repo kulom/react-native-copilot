@@ -21,22 +21,30 @@ export default StyleSheet.create({
     borderColor: "transparent",
     borderWidth: 5
   },
+  toolTipsContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-around",
+    paddingBottom: 15
+  },
   bottomToolTip: {
     bottom: 0
   },
   topToolTip: {
     top: 0
   },
+  fullWidthToolTips: {
+    height: 120,
+    paddingBottom: 5
+  },
   tooltip: {
     position: "absolute",
     paddingTop: 15,
     paddingHorizontal: 15,
-    paddingBottom: 5,
     backgroundColor: "#fff",
     borderRadius: 3,
     overflow: "hidden",
-    width: "100%",
-    height: 120
+    width: "100%"
   },
   tooltipText: {},
   stepNumber: {

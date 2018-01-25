@@ -29,6 +29,8 @@ type Props = {
   currentStep: ?Step,
   visible: boolean,
   image: number,
+  scrollViewHeight: number,
+  fullWidthToolTips: boolean,
   isFirstStep: boolean,
   isLastStep: boolean
 };
@@ -46,7 +48,8 @@ class CopilotModal extends Component<Props, State> {
     nextButton: <Button>Next</Button>,
     prevButton: <Button>Previous</Button>,
     stopButton: <Button>Stop</Button>,
-    finishButton: <Button>Finish</Button>
+    finishButton: <Button>Finish</Button>,
+    fullWidthToolTips: false
   };
 
   state = {
@@ -238,21 +241,19 @@ class CopilotModal extends Component<Props, State> {
         <Animated.View
           style={[
             styles.tooltip,
-            this.props.currentElementYPosition > this.state.wrapperSize / 2
+            this.props.fullWidthToolTips
+              ? styles.fullWidthToolTips
+              : this.state.tooltip,
+            this.props.currentElementYPosition > this.state.scrollViewHeight / 2
               ? styles.topToolTip
-              : styles.bottomToolTip
+              : this.props.fullWidthToolTips && styles.bottomToolTip
           ]}
         >
           <View style={{ flex: 1, flexDirection: "row" }}>
-            <Image source={this.props.image} style={styles.image} />
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "column",
-                justifyContent: "space-around",
-                paddingBottom: 15
-              }}
-            >
+            {this.props.fullWidthToolTips && (
+              <Image source={this.props.image} style={styles.image} />
+            )}
+            <View style={styles.toolTipsContainer}>
               <View>
                 <Text style={styles.tooltipText}>
                   {this.props.currentStep.text}

@@ -72,9 +72,9 @@ const copilot = ({
         whereToScroll: whereToScroll < 0 ? 0 : whereToScroll
       });
       return this.scrollViewMeasure.oy > targetMeasure.y
-        ? targetMeasure.y - whereToScroll + this.scrollViewMeasure.oy
+        ? -targetMeasure.height / 2 - whereToScroll
         : this.scrollViewMeasure.y +
-            (this.scrollViewMeasure.height / 2 - targetMeasure.height);
+            ((this.scrollViewMeasure.height) / 2 - targetMeasure.height);
     };
 
     setCurrentStep = async (step: Step): void => {

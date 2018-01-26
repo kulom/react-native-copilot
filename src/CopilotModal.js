@@ -38,7 +38,6 @@ type State = {
   arrow: Object,
   anim: Object,
   notAnimated: boolean,
-  wrapperSize: number,
 };
 
 class CopilotModal extends Component<Props, State> {
@@ -63,8 +62,7 @@ class CopilotModal extends Component<Props, State> {
       top: new Animated.Value(0),
       stepNumberLeft: new Animated.Value(0)
     },
-    animated: false,
-    wrapperSize: 0
+    animated: false
   };
 
   measure(): Promise {
@@ -177,12 +175,6 @@ class CopilotModal extends Component<Props, State> {
         style={styles.container}
         ref={element => {
           this.wrapper = element;
-        }}
-        onLayout={() => {
-          this.wrapper.measure((ox, oy, width, height, x, y) => {
-            const wrapperMeasure = { ox, oy, width, height, x, y };
-            this.setState({ wrapperSize: wrapperMeasure.height });
-          });
         }}
       >
         <Animated.View

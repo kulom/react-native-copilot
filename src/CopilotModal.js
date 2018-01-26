@@ -1,6 +1,13 @@
 // @flow
 import React, { Component } from "react";
-import { Animated, Easing, View, Text, TouchableOpacity } from "react-native";
+import {
+  Animated,
+  Easing,
+  View,
+  Text,
+  TouchableOpacity,
+  Image
+} from "react-native";
 
 import Button from "./Button";
 import styles, {
@@ -20,6 +27,8 @@ type Props = {
   currentStepNumber: number,
   currentStep: ?Step,
   visible: boolean,
+  image: number,
+  fullWidthToolTips: boolean,
   isFirstStep: boolean,
   isLastStep: boolean
 };
@@ -28,7 +37,7 @@ type State = {
   tooltip: Object,
   arrow: Object,
   anim: Object,
-  notAnimated: boolean
+  notAnimated: boolean,
 };
 
 class CopilotModal extends Component<Props, State> {
@@ -36,7 +45,8 @@ class CopilotModal extends Component<Props, State> {
     nextButton: <Button>Next</Button>,
     prevButton: <Button>Previous</Button>,
     stopButton: <Button>Stop</Button>,
-    finishButton: <Button>Finish</Button>
+    finishButton: <Button>Finish</Button>,
+    fullWidthToolTips: false
   };
 
   state = {
@@ -166,7 +176,6 @@ class CopilotModal extends Component<Props, State> {
         ref={element => {
           this.wrapper = element;
         }}
-        onLayout={() => {}}
       >
         <Animated.View
           style={[
@@ -215,32 +224,48 @@ class CopilotModal extends Component<Props, State> {
           </Text>
         </Animated.View>
         <Animated.View style={[styles.arrow, this.state.arrow]} />
-        <Animated.View style={[styles.tooltip, this.state.tooltip]}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.tooltipText}>
-              {this.props.currentStep.text}
-            </Text>
-          </View>
-          <View style={[styles.bottomBar]}>
-            {!this.props.isLastStep ? (
-              <TouchableOpacity onPress={this.props.stop}>
-                {this.props.stopButton}
-              </TouchableOpacity>
-            ) : null}
-            {!this.props.isFirstStep ? (
-              <TouchableOpacity onPress={this.props.prev}>
-                {this.props.prevButton}
-              </TouchableOpacity>
-            ) : null}
-            {!this.props.isLastStep ? (
-              <TouchableOpacity onPress={this.props.next}>
-                {this.props.nextButton}
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity onPress={this.props.stop}>
-                {this.props.finishButton}
-              </TouchableOpacity>
+        <Animated.View
+          style={[
+            styles.tooltip,
+            this.props.fullWidthToolTips
+              ? styles.fullWidthToolTips
+              : this.state.tooltip,
+            this.props.fullWidthToolTips && styles.bottomToolTip
+          ]}
+        >
+          <View style={{ flex: 1, flexDirection: "row" }}>
+            {this.props.fullWidthToolTips && (
+              <Image source={this.props.image} style={styles.image} />
             )}
+            <View style={styles.toolTipsContainer}>
+              <View>
+                <Text style={styles.tooltipText}>
+                  {this.props.currentStep.text}
+                </Text>
+              </View>
+
+              <View style={[styles.bottomBar]}>
+                {!this.props.isLastStep ? (
+                  <TouchableOpacity onPress={this.props.stop}>
+                    {this.props.stopButton}
+                  </TouchableOpacity>
+                ) : null}
+                {!this.props.isFirstStep ? (
+                  <TouchableOpacity onPress={this.props.prev}>
+                    {this.props.prevButton}
+                  </TouchableOpacity>
+                ) : null}
+                {!this.props.isLastStep ? (
+                  <TouchableOpacity onPress={this.props.next}>
+                    {this.props.nextButton}
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity onPress={this.props.stop}>
+                    {this.props.finishButton}
+                  </TouchableOpacity>
+                )}
+              </View>
+            </View>
           </View>
         </Animated.View>
       </View>

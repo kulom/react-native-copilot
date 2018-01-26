@@ -28,7 +28,9 @@ const copilot = ({
   nextButton,
   prevButton,
   stopButton,
-  finishButton
+  finishButton,
+  image,
+  fullWidthToolTips
 } = {}) => WrappedComponent => {
   class Copilot extends Component<any, State> {
     state = {
@@ -72,12 +74,11 @@ const copilot = ({
       return this.scrollViewMeasure.oy > targetMeasure.y
         ? -targetMeasure.height / 2 - whereToScroll
         : this.scrollViewMeasure.y +
-            (this.scrollViewMeasure.height / 2 - targetMeasure.height);
+            ((this.scrollViewMeasure.height) / 2 - targetMeasure.height);
     };
 
     setCurrentStep = async (step: Step): void => {
       const targetMeasure = await step.target.measure();
-
       const scrollViewHeight = this.scrollViewMeasure.height;
       const targetBottomY = targetMeasure.y + targetMeasure.height;
       let newTargetY;
@@ -89,7 +90,6 @@ const copilot = ({
         newTargetY = await this.startScroll(targetMeasure);
       }
       await this.setState({ currentStep: step });
-
       this.modal.animateMove({
         width: targetMeasure.width + OFFSET_WIDTH,
         height: targetMeasure.height + OFFSET_WIDTH,
@@ -174,6 +174,8 @@ const copilot = ({
             prevButton={prevButton}
             stopButton={stopButton}
             finishButton={finishButton}
+            image={image}
+            fullWidthToolTips={fullWidthToolTips}
             ref={modal => {
               this.modal = modal;
             }}
